@@ -1,10 +1,11 @@
 package com.musketeers.jewelverse.service;
 
-import com.musketeers.jewelverse.dto.request.LoginRequest;
-import com.musketeers.jewelverse.dto.request.RegisterRequest;
-import com.musketeers.jewelverse.dto.response.AuthResponse;
+import com.musketeers.jewelverse.dto.request.LoginRequestDto;
+import com.musketeers.jewelverse.dto.request.RegisterRequestDto;
+import com.musketeers.jewelverse.dto.response.AuthResponseDto;
 
 public interface AuthService {
-    AuthResponse register(RegisterRequest request);
-    AuthResponse login(LoginRequest request);
+    String registerCustomer(RegisterRequestDto request);
+    String registerSalesperson(RegisterRequestDto request);
+    AuthResponseDto login(LoginRequestDto request);
 }

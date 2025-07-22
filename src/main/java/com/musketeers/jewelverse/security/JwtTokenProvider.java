@@ -1,7 +1,10 @@
 package com.musketeers.jewelverse.security;
 
 import com.musketeers.jewelverse.config.JwtConfig;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -31,19 +34,31 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String refreshToken(String token) {
+        Claims claims = Jwts.parserBuilder() // This should now work with a recent jjwt version
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token) // Use parseClaimsJws instead of parseSignedClaims
+                .getBody();
+        String username = claims.getSubject();
+        return generateToken(username);
+    }
+
     public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtConfig.getSecret().getBytes())
-                .parseClaimsJws(token)
+        Claims claims = Jwts.parserBuilder() // This should now work with a recent jjwt version
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token) // Use parseClaimsJws instead of parseSignedClaims
                 .getBody();
         return claims.getSubject();
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
-                    .setSigningKey(jwtConfig.getSecret().getBytes())
-                    .parseClaimsJws(token);
+            Jwts.parserBuilder() // This should now work with a recent jjwt version
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token); // Use parseClaimsJws instead of parseSignedClaims
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;

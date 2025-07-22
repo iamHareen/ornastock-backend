@@ -1,4 +1,4 @@
-package com.musketeers.jewelverse.dto.request;
+package com.musketeers.jewelverse.dto.auth;
 
 import lombok.Data;
 

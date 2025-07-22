@@ -1,8 +1,8 @@
 package com.musketeers.jewelverse.enums;
 
-public enum Role {
+public enum UserRole {
     CUSTOMER,
-    SALESPERSON,
+    ADMIN,
     MANAGER,
-    ADMIN
+    SALES_ASSISTANT
 }

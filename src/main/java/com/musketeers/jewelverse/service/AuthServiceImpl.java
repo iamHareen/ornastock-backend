@@ -1,9 +1,9 @@
 package com.musketeers.jewelverse.service;
 
-import com.musketeers.jewelverse.dto.request.LoginRequest;
-import com.musketeers.jewelverse.dto.request.RegisterRequest;
-import com.musketeers.jewelverse.dto.response.AuthResponse;
-import com.musketeers.jewelverse.entity.User;
+import com.musketeers.jewelverse.dto.request.LoginRequestDto;
+import com.musketeers.jewelverse.dto.request.RegisterRequestDto;
+import com.musketeers.jewelverse.dto.response.AuthResponseDto;
+import com.musketeers.jewelverse.entity.user.User;
 import com.musketeers.jewelverse.repository.UserRepository;
 import com.musketeers.jewelverse.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -19,22 +19,31 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public AuthResponse register(RegisterRequest request) {
+    public String registerCustomer(RegisterRequestDto request) {
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .build();
+        userRepository.save(user);
+        return "Customer registered successfully";
+    }
+
+    @Override
+    public String registerSalesperson(RegisterRequestDto request) {
+        User user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         userRepository.save(user);
 
-        String token = jwtTokenProvider.generateToken(user.getEmail());
-        return new AuthResponse(token);
+        return "Salesperson registered successfully";
     }
 
     @Override
-    public AuthResponse login(LoginRequest request) {
+    public AuthResponseDto login(LoginRequestDto request) {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -43,7 +52,17 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String token = jwtTokenProvider.generateToken(user.getEmail());
-        return new AuthResponse(token);
+        String refreshedToken = jwtTokenProvider.refreshToken(token);
+
+        AuthResponseDto authResponseDto = new AuthResponseDto();
+        authResponseDto.setToken(token);
+        authResponseDto.setUserId(user.getId().toString());
+        authResponseDto.setRefreshToken(refreshedToken);
+        
+//        authResponseDto.setRole("CUSTOMER");
+
+        return authResponseDto;
     }
+
 }
 
