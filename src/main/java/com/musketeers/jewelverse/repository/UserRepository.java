@@ -1,31 +1,35 @@
+// src/main/java/com/musketeers/jewelverse/repository/UserRepository.java
+
 package com.musketeers.jewelverse.repository;
 
 import com.musketeers.jewelverse.model.entity.user.User;
-import com.musketeers.jewelverse.model.enums.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for User entity.
+ * Handles database operations for Users.
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    /**
+     * Finds a user by their email address.
+     * The Optional container handles cases where a user might not be found.
+     *
+     * @param email The email to search for.
+     * @return An Optional containing the User if found, otherwise empty.
+     */
     Optional<User> findByEmail(String email);
 
-    Optional<User> findByEmailAndIsActiveTrue(String email);
-
-    List<User> findByRole(UserRole role);
-
-    List<User> findByRoleAndIsActiveTrue(UserRole role);
-
-    boolean existsByEmail(String email);
-
-    @Query("SELECT u FROM User u WHERE u.firstName LIKE %:name% OR u.lastName LIKE %:name%")
-    List<User> findByNameContaining(@Param("name") String name);
-
-    @Query("SELECT COUNT(u) FROM User u WHERE u.role = :role AND u.isActive = true")
-    long countActiveUsersByRole(@Param("role") UserRole role);
+    /**
+     * Checks if a user exists with the given email address.
+     * This is more efficient than fetching the whole user object.
+     *
+     * @param email The email to check.
+     * @return true if a user with the email exists, false otherwise.
+     */
+    Boolean existsByEmail(String email);
 }

@@ -1,3 +1,5 @@
+// src/main/java/com/musketeers/jewelverse/repository/CategoryRepository.java
+
 package com.musketeers.jewelverse.repository;
 
 import com.musketeers.jewelverse.model.entity.jewelry.Category;
@@ -9,6 +11,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Repository interface for Category entity.
+ * Includes several custom queries for managing and reporting on categories.
+ */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
@@ -30,4 +36,3 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT COUNT(j) FROM Category c JOIN c.jewelries j WHERE c.id = :categoryId")
     long countJewelriesByCategoryId(@Param("categoryId") Long categoryId);
 }
-
