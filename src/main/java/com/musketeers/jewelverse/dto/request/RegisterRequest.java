@@ -1,6 +1,6 @@
 package com.musketeers.jewelverse.dto.request;
 
-import com.musketeers.jewelverse.enums.Role;
+import com.musketeers.jewelverse.model.enums.Role;
 import lombok.Data;
 
 @Data

@@ -1,4 +1,4 @@
-package com.musketeers.jewelverse.enums;
+package com.musketeers.jewelverse.model.enums;
 
 public enum Role {
     CUSTOMER,

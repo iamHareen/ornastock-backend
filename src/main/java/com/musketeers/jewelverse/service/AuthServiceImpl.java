@@ -3,7 +3,6 @@ package com.musketeers.jewelverse.service;
 import com.musketeers.jewelverse.dto.request.LoginRequest;
 import com.musketeers.jewelverse.dto.request.RegisterRequest;
 import com.musketeers.jewelverse.dto.response.AuthResponse;
-import com.musketeers.jewelverse.entity.User;
 import com.musketeers.jewelverse.repository.UserRepository;
 import com.musketeers.jewelverse.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;

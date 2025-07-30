@@ -1,7 +1,6 @@
 package com.musketeers.jewelverse.service;
 
 
-import com.musketeers.jewelverse.entity.User;
 import com.musketeers.jewelverse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
