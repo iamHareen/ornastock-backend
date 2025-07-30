@@ -1,4 +1,4 @@
-package com.musketeers.jewelverse.security;
+package com.musketeers.jewelverse.security.jwt;
 
 import com.musketeers.jewelverse.config.JwtConfig;
 import io.jsonwebtoken.Claims;
