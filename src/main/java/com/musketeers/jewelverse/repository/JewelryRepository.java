@@ -1,7 +1,7 @@
 package com.musketeers.jewelverse.repository;
 
-import com.musketeers.jewelverse.entity.jewelry.Jewelry;
-import com.musketeers.jewelverse.enums.JewelryStatus;
+import com.musketeers.jewelverse.model.entity.jewelry.Jewelry;
+import com.musketeers.jewelverse.model.enums.JewelryStatus;
 import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package com.musketeers.jewelverse.dto.auth;
 
-import com.musketeers.jewelverse.enums.UserRole;
+import com.musketeers.jewelverse.model.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,6 +1,6 @@
 package com.musketeers.jewelverse.repository;
 
-import com.musketeers.jewelverse.entity.jewelry.Category;
+import com.musketeers.jewelverse.model.entity.jewelry.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

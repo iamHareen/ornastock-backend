@@ -1,4 +1,4 @@
 package com.musketeers.jewelverse.service.auth;
 
-public class PasswordResetService {
+public interface PasswordResetService {
 }

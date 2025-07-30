@@ -1,7 +1,7 @@
 package com.musketeers.jewelverse.repository;
 
-import com.musketeers.jewelverse.entity.order.Order;
-import com.musketeers.jewelverse.enums.OrderStatus;
+import com.musketeers.jewelverse.model.entity.order.Order;
+import com.musketeers.jewelverse.model.enums.OrderStatus;
 import org.hibernate.query.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

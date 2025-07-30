@@ -3,7 +3,6 @@ package com.musketeers.jewelverse.controller.auth;
 import com.musketeers.jewelverse.dto.request.LoginRequestDto;
 import com.musketeers.jewelverse.dto.request.RegisterRequestDto;
 import com.musketeers.jewelverse.dto.response.AuthResponseDto;
-import com.musketeers.jewelverse.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

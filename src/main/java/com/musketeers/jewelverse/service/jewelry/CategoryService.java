@@ -1,4 +1,4 @@
 package com.musketeers.jewelverse.service.jewelry;
 
-public class CategoryService {
+public interface CategoryService {
 }

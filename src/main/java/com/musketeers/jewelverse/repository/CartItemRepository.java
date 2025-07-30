@@ -1,6 +1,6 @@
 package com.musketeers.jewelverse.repository;
 
-import com.musketeers.jewelverse.entity.order.CartItem;
+import com.musketeers.jewelverse.model.entity.order.CartItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

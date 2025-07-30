@@ -1,7 +1,7 @@
 package com.musketeers.jewelverse.repository;
 
-import com.musketeers.jewelverse.entity.user.User;
-import com.musketeers.jewelverse.enums.UserRole;
+import com.musketeers.jewelverse.model.entity.user.User;
+import com.musketeers.jewelverse.model.enums.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
