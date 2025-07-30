@@ -1,48 +1,60 @@
+// src/main/java/com/musketeers/jewelverse/model/entity/discount/DiscountRequest.java
+// NOTE: This entity has been updated to combine the best features of both versions.
+
 package com.musketeers.jewelverse.model.entity.discount;
 
 import com.musketeers.jewelverse.model.entity.BaseEntity;
 import com.musketeers.jewelverse.model.entity.jewelry.Jewelry;
-import com.musketeers.jewelverse.model.entity.user.SalesAssistant;
+import com.musketeers.jewelverse.model.entity.user.Customer;
+import com.musketeers.jewelverse.model.entity.user.User;
+import com.musketeers.jewelverse.model.enums.DiscountRequestStatus;
 import com.musketeers.jewelverse.model.enums.DiscountType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Entity
 @Table(name = "discount_requests")
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class DiscountRequest extends BaseEntity {
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sales_assistant_id", nullable = false)
-    private SalesAssistant salesAssistant;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "jewelry_id", nullable = false)
     private Jewelry jewelry;
 
-    @Column(name = "requested_discount_type", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "requested_by_user_id", nullable = false) // The Sales Assistant who made the request
+    private User requestedByUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id") // The customer for whom the discount is requested
+    private Customer customer;
+
     @Enumerated(EnumType.STRING)
+    @Column(name = "requested_discount_type", nullable = false)
     private DiscountType requestedDiscountType;
 
     @Column(name = "requested_discount_value", nullable = false, precision = 10, scale = 2)
     private BigDecimal requestedDiscountValue;
 
-    @Column(name = "reason", nullable = false)
+    @Column(name = "reason", columnDefinition = "TEXT")
     private String reason;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status = "PENDING"; // PENDING, APPROVED, REJECTED
+    private DiscountRequestStatus status = DiscountRequestStatus.PENDING;
 
-    @Column(name = "manager_comments")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewed_by_user_id") // The Manager who reviewed the request
+    private User reviewedByUser;
+
+    @Column(name = "manager_comments", columnDefinition = "TEXT")
     private String managerComments;
 
     @Column(name = "approved_date")
@@ -50,30 +62,4 @@ public class DiscountRequest extends BaseEntity {
 
     @Column(name = "expires_at")
     private LocalDateTime expiresAt;
-
-    // Constructors
-    public DiscountRequest() {}
-
-    public DiscountRequest(SalesAssistant salesAssistant, Customer customer, Jewelry jewelry,
-                           DiscountType requestedDiscountType, BigDecimal requestedDiscountValue, String reason) {
-        this.salesAssistant = salesAssistant;
-        this.customer = customer;
-        this.jewelry = jewelry;
-        this.requestedDiscountType = requestedDiscountType;
-        this.requestedDiscountValue = requestedDiscountValue;
-        this.reason = reason;
-    }
-
-    // Helper methods
-    public boolean isApproved() {
-        return "APPROVED".equals(status);
-    }
-
-    public boolean isExpired() {
-        return expiresAt != null && LocalDateTime.now().isAfter(expiresAt);
-    }
-
-    public boolean isValid() {
-        return isApproved() && !isExpired();
-    }
 }
