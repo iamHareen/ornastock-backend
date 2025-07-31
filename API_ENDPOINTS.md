@@ -4,8 +4,8 @@
 Jewelverse is a jewelry store management system built with Spring Boot 3.4.5. This API provides endpoints for authentication, user management, jewelry management, and discount request handling.
 
 **Base URL:** `http://localhost:8080`  
-**Database:** H2 In-Memory Database  
-**H2 Console:** `http://localhost:8080/h2-console`
+**Database:** MySQL 8.0+  
+**Database Name:** `jewelverse_db`
 
 ---
 
@@ -604,11 +604,13 @@ The token is obtained from the login endpoint and contains user role information
 
 ## Database Information
 
-- **Type:** H2 In-Memory Database
-- **URL:** `jdbc:h2:mem:testdb`
-- **Console:** `http://localhost:8080/h2-console`
-- **Username:** `SA`
-- **Password:** (empty)
+- **Type:** MySQL 8.0+
+- **Database Name:** `jewelverse_db`
+- **Default URL:** `jdbc:mysql://localhost:3306/jewelverse_db`
+- **Connection:** Configure in `application.properties`
+
+### Setup Instructions
+See `DATABASE_SETUP.md` for detailed setup instructions.
 
 ### Key Tables
 - `users` - User accounts with single-table inheritance
@@ -627,11 +629,12 @@ The token is obtained from the login endpoint and contains user role information
 
 ## Notes
 
-1. **Development Mode:** Currently using H2 in-memory database for testing
+1. **Production Database:** Using MySQL for persistent data storage
 2. **Security:** JWT-based authentication with role-based authorization
 3. **Validation:** Request validation using Spring Boot Validation
 4. **Documentation:** This API follows RESTful conventions
-5. **Incomplete Features:** Some controller classes (CustomerController, CustomerCartController, etc.) are placeholder classes and may require implementation based on business requirements
+5. **User Roles:** Implemented using enum instead of database table
+6. **Database Setup:** See DATABASE_SETUP.md for MySQL configuration instructions
 
 ---
 
