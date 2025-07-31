@@ -1,23 +1,49 @@
-// src/main/java/com/musketeers/jewelverse/util/mapper/AuthMapper.java
-// A new mapper specifically for authentication-related conversions.
-
 package com.musketeers.jewelverse.util.mapper;
 
-import com.musketeers.jewelverse.dto.auth.RegisterRequest;
-import com.musketeers.jewelverse.model.entity.user.User;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import com.musketeers.jewelverse.dto.auth.*;
+import com.musketeers.jewelverse.model.entity.user.*;
+import com.musketeers.jewelverse.model.enums.UserRole;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface AuthMapper {
+/**
+ * Mapper for converting between authentication-related entities and DTOs
+ */
+@Component
+public class AuthMapper {
 
-    @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "createdAt", ignore = true),
-            @Mapping(target = "updatedAt", ignore = true),
-            @Mapping(target = "enabled", constant = "true"), // Customers are enabled by default
-            @Mapping(target = "role", ignore = true) // Role will be set in the service
-    })
-    User registerRequestToUser(RegisterRequest registerRequest);
+    public LoginResponse toLoginResponse(User user, String token) {
+        if (user == null) {
+            return null;
+        }
+
+        UserRole userRole = null;
+        if (user.getRole() != null) {
+            try {
+                userRole = UserRole.valueOf(user.getRole().getName());
+            } catch (IllegalArgumentException e) {
+                // Handle case where role name doesn't match enum
+                userRole = null;
+            }
+        }
+
+        return LoginResponse.builder()
+                .token(token)
+                .role(userRole)
+                .build();
+    }
+
+    public Customer registerRequestToUser(RegisterRequest dto) {
+        if (dto == null) {
+            return null;
+        }
+
+        Customer customer = new Customer();
+        customer.setFirstName(dto.getFirstName());
+        customer.setLastName(dto.getLastName());
+        customer.setEmail(dto.getEmail());
+        customer.setPassword(dto.getPassword());
+        customer.setEnabled(true); // New customers are enabled by default
+
+        return customer;
+    }
 }

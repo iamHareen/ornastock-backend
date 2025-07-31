@@ -3,8 +3,6 @@ package com.musketeers.jewelverse.model.entity.user;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
-import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +16,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @DiscriminatorValue("SALES_ASSISTANT")
-@Table(name = "sales_assistants")
-@PrimaryKeyJoinColumn(name = "user_id")
 public class SalesAssistant extends User {
 
     @Column(name = "employee_id", unique = true)

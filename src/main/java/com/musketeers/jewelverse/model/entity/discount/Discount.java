@@ -26,7 +26,7 @@ public class Discount extends BaseEntity {
     @Column(name = "type", nullable = false)
     private DiscountType type;
 
-    @Column(name = "value", nullable = false, precision = 10, scale = 2)
+    @Column(name = "discount_value", nullable = false, precision = 10, scale = 2)
     private BigDecimal value;
 
     @Column(name = "start_date", nullable = false)

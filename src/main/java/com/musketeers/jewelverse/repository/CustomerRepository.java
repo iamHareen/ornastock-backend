@@ -15,7 +15,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> findByEmail(String email);
 
-    Optional<Customer> findByEmailAndIsActiveTrue(String email);
+    Optional<Customer> findByEmailAndEnabledTrue(String email);
 
     List<Customer> findByDateOfBirth(LocalDate dateOfBirth);
 
@@ -25,6 +25,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("SELECT c FROM Customer c JOIN c.orders o WHERE o.id = :orderId")
     Optional<Customer> findByOrderId(@Param("orderId") Long orderId);
 
-    @Query("SELECT COUNT(c) FROM Customer c WHERE c.isActive = true")
+    @Query("SELECT COUNT(c) FROM Customer c WHERE c.enabled = true")
     long countActiveCustomers();
 }
