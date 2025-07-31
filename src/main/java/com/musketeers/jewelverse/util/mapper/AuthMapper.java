@@ -1,7 +1,7 @@
-// src/main/java/com/musketeers/jewelverse/mapper/AuthMapper.java
+// src/main/java/com/musketeers/jewelverse/util/mapper/AuthMapper.java
 // A new mapper specifically for authentication-related conversions.
 
-package com.musketeers.jewelverse.mapper;
+package com.musketeers.jewelverse.util.mapper;
 
 import com.musketeers.jewelverse.dto.auth.RegisterRequest;
 import com.musketeers.jewelverse.model.entity.user.User;

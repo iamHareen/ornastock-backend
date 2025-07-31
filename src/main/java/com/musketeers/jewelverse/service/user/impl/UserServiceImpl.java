@@ -8,7 +8,7 @@ import com.musketeers.jewelverse.dto.user.UserDto;
 import com.musketeers.jewelverse.dto.user.UserUpdateDto;
 import com.musketeers.jewelverse.exception.ResourceNotFoundException;
 import com.musketeers.jewelverse.exception.UserAlreadyExistsException;
-import com.musketeers.jewelverse.mapper.UserMapper;
+import com.musketeers.jewelverse.util.mapper.UserMapper;
 import com.musketeers.jewelverse.model.entity.user.Role;
 import com.musketeers.jewelverse.model.entity.user.User;
 import com.musketeers.jewelverse.repository.RoleRepository;

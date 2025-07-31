@@ -1,13 +1,13 @@
-/ src/main/java/com/musketeers/jewelverse/service/auth/impl/AuthServiceImpl.java
+// src/main/java/com/musketeers/jewelverse/service/auth/impl/AuthServiceImpl.java
 // The implementation of the AuthService.
 
-        package com.musketeers.jewelverse.service.auth.impl;
+package com.musketeers.jewelverse.service.auth.impl;
 
 import com.musketeers.jewelverse.dto.auth.LoginResponse;
 import com.musketeers.jewelverse.dto.auth.LoginRequest;
 import com.musketeers.jewelverse.dto.auth.RegisterRequest;
 import com.musketeers.jewelverse.exception.UserAlreadyExistsException;
-import com.musketeers.jewelverse.mapper.AuthMapper;
+import com.musketeers.jewelverse.util.mapper.AuthMapper;
 import com.musketeers.jewelverse.model.entity.user.Role;
 import com.musketeers.jewelverse.model.entity.user.User;
 import com.musketeers.jewelverse.model.enums.UserRole;

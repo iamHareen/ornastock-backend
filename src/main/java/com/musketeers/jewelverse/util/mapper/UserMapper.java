@@ -1,7 +1,7 @@
 // src/main/java/com/musketeers/jewelverse/mapper/UserMapper.java
 // A new mapper for converting between User entities and DTOs.
 
-package com.musketeers.jewelverse.mapper;
+package com.musketeers.jewelverse.util.mapper;
 
 import com.musketeers.jewelverse.dto.user.UserCreateDto;
 import com.musketeers.jewelverse.dto.user.UserDto;

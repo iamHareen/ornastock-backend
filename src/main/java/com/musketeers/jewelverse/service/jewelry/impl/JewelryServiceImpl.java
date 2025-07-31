@@ -8,13 +8,10 @@ import com.musketeers.jewelverse.dto.jewelry.JewelryDto;
 import com.musketeers.jewelverse.dto.jewelry.JewelryUpdateDto;
 import com.musketeers.jewelverse.exception.ResourceNotFoundException;
 import com.musketeers.jewelverse.model.entity.jewelry.Category;
-import com.musketeers.jewelverse.model.entity.jewelry.Inventory;
 import com.musketeers.jewelverse.model.entity.jewelry.Jewelry;
-import com.musketeers.jewelverse.model.entity.jewelry.JewelryImage;
 import com.musketeers.jewelverse.repository.CategoryRepository;
 import com.musketeers.jewelverse.repository.JewelryRepository;
 import com.musketeers.jewelverse.service.jewelry.JewelryService;
-import com.musketeers.jewelverse.util.Mappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +38,7 @@ public class JewelryServiceImpl implements JewelryService {
     @Transactional(readOnly = true)
     public JewelryDto getJewelryById(Long id) {
         return jewelryRepository.findById(id)
-                .map(Mappers::toJewelryDto)
+                .map(com.musketeers.jewelverse.util.mapper.Mappers::toJewelryDto)
                 .orElseThrow(() -> new ResourceNotFoundException("Jewelry not found with id: " + id));
     }
 
@@ -52,9 +49,9 @@ public class JewelryServiceImpl implements JewelryService {
         Category category = categoryRepository.findById(createDto.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + createDto.getCategoryId()));
 
-        Jewelry newJewelry = Mappers.toJewelryEntity(createDto, category);
+        Jewelry newJewelry = com.musketeers.jewelverse.util.mapper.Mappers.toJewelryEntity(createDto, category);
         Jewelry savedJewelry = jewelryRepository.save(newJewelry);
-        return Mappers.toJewelryDto(savedJewelry);
+        return com.musketeers.jewelverse.util.mapper.Mappers.toJewelryDto(savedJewelry);
     }
 
     @Override
@@ -67,9 +64,9 @@ public class JewelryServiceImpl implements JewelryService {
         Category category = categoryRepository.findById(updateDto.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + updateDto.getCategoryId()));
 
-        Mappers.updateJewelryFromDto(existingJewelry, updateDto, category);
+        com.musketeers.jewelverse.util.mapper.Mappers.updateJewelryFromDto(existingJewelry, updateDto, category);
         Jewelry updatedJewelry = jewelryRepository.save(existingJewelry);
-        return Mappers.toJewelryDto(updatedJewelry);
+        return com.musketeers.jewelverse.util.mapper.Mappers.toJewelryDto(updatedJewelry);
     }
 
     @Override
