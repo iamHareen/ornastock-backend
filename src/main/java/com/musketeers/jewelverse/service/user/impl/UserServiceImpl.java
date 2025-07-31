@@ -9,9 +9,8 @@ import com.musketeers.jewelverse.dto.user.UserUpdateDto;
 import com.musketeers.jewelverse.exception.ResourceNotFoundException;
 import com.musketeers.jewelverse.exception.UserAlreadyExistsException;
 import com.musketeers.jewelverse.util.mapper.UserMapper;
-import com.musketeers.jewelverse.model.entity.user.Role;
 import com.musketeers.jewelverse.model.entity.user.User;
-import com.musketeers.jewelverse.repository.RoleRepository;
+import com.musketeers.jewelverse.model.enums.UserRole;
 import com.musketeers.jewelverse.repository.UserRepository;
 import com.musketeers.jewelverse.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder; // From your SecurityConfig
 
@@ -36,7 +34,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
         // Exclude customers from this list for admin management
         return userRepository.findAll().stream()
-                .filter(user -> user.getRole() != null && !user.getRole().getName().equals("CUSTOMER"))
+                .filter(user -> user.getUserRole() != null && !user.getUserRole().equals(UserRole.CUSTOMER))
                 .map(userMapper::toUserDto)
                 .collect(Collectors.toList());
     }
@@ -61,11 +59,6 @@ public class UserServiceImpl implements UserService {
         // Encode the password before saving
         newUser.setPassword(passwordEncoder.encode(createDto.getPassword()));
 
-        // Find and assign the role
-        Role role = roleRepository.findByName(createDto.getRole().name())
-                .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + createDto.getRole().name()));
-        newUser.setRole(role);
-
         User savedUser = userRepository.save(newUser);
         return userMapper.toUserDto(savedUser);
     }
@@ -82,9 +75,7 @@ public class UserServiceImpl implements UserService {
 
         // Update role if it's provided
         if (updateDto.getRole() != null) {
-            Role role = roleRepository.findByName(updateDto.getRole().name())
-                    .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + updateDto.getRole().name()));
-            existingUser.setRole(role);
+            existingUser.setUserRole(updateDto.getRole());
         }
 
         User updatedUser = userRepository.save(existingUser);

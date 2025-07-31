@@ -1,5 +1,6 @@
 package com.musketeers.jewelverse.model.entity.user;
 
+import com.musketeers.jewelverse.model.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -25,11 +26,13 @@ public class Admin extends User {
         super(email, password, firstName, lastName);
         this.employeeId = employeeId;
         this.department = department;
+        this.setUserRole(UserRole.ADMIN); // Set the role explicitly
     }
 
     // A simpler custom constructor if department is optional during initial creation
     public Admin(String email, String password, String firstName, String lastName, String employeeId) {
         super(email, password, firstName, lastName);
         this.employeeId = employeeId;
+        this.setUserRole(UserRole.ADMIN); // Set the role explicitly
     }
 }

@@ -8,10 +8,7 @@ import com.musketeers.jewelverse.dto.auth.LoginRequest;
 import com.musketeers.jewelverse.dto.auth.RegisterRequest;
 import com.musketeers.jewelverse.exception.UserAlreadyExistsException;
 import com.musketeers.jewelverse.util.mapper.AuthMapper;
-import com.musketeers.jewelverse.model.entity.user.Role;
 import com.musketeers.jewelverse.model.entity.user.User;
-import com.musketeers.jewelverse.model.enums.UserRole;
-import com.musketeers.jewelverse.repository.RoleRepository;
 import com.musketeers.jewelverse.repository.UserRepository;
 import com.musketeers.jewelverse.security.jwt.JwtTokenProvider; // We need this to generate a token
 import com.musketeers.jewelverse.service.auth.AuthService;
@@ -29,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthMapper authMapper;
     private final AuthenticationManager authenticationManager; // From your SecurityConfig
@@ -44,11 +40,7 @@ public class AuthServiceImpl implements AuthService {
 
         User newUser = authMapper.registerRequestToUser(registerRequest);
         newUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-
-        // Assign the CUSTOMER role by default
-        Role customerRole = roleRepository.findByName("CUSTOMER")
-                .orElseThrow(() -> new RuntimeException("Error: CUSTOMER role is not found."));
-        newUser.setRole(customerRole);
+        // Role is already set in the mapper as CUSTOMER
 
         userRepository.save(newUser);
     }
@@ -76,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .role(UserRole.valueOf(user.getRole().getName()))
+                .role(user.getUserRole())
                 .build();
     }
 }

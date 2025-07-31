@@ -1,5 +1,6 @@
 package com.musketeers.jewelverse.model.entity.user;
 
+import com.musketeers.jewelverse.model.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -28,6 +29,7 @@ public class Manager extends User {
     public Manager(String email, String password, String firstName, String lastName, String employeeId) {
         super(email, password, firstName, lastName);
         this.employeeId = employeeId;
+        this.setUserRole(UserRole.MANAGER); // Set the role explicitly
     }
 
 }

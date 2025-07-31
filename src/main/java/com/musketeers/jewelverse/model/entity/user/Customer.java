@@ -7,6 +7,7 @@ package com.musketeers.jewelverse.model.entity.user;
 import com.musketeers.jewelverse.model.entity.feedback.Feedback;
 import com.musketeers.jewelverse.model.entity.order.Cart;
 import com.musketeers.jewelverse.model.entity.order.Order;
+import com.musketeers.jewelverse.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -51,5 +52,6 @@ public class Customer extends User {
     // Constructor for creating a new customer
     public Customer(String email, String password, String firstName, String lastName) {
         super(email, password, firstName, lastName);
+        this.setUserRole(UserRole.CUSTOMER); // Set the role explicitly
     }
 }

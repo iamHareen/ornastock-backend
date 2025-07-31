@@ -23,7 +23,7 @@ public class UserPrinciple implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserPrinciple build(User user) {
-        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName());
+        GrantedAuthority authority = new SimpleGrantedAuthority(user.getUserRole().name());
         return new UserPrinciple(
                 user.getId(),
                 user.getEmail(),

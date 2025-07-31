@@ -4,6 +4,7 @@
 package com.musketeers.jewelverse.model.entity.user;
 
 import com.musketeers.jewelverse.model.entity.BaseEntity;
+import com.musketeers.jewelverse.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,9 +42,9 @@ public abstract class User extends BaseEntity {
 
     private boolean enabled = true;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role", nullable = false)
+    private UserRole userRole;
 
     // Custom constructor for backwards compatibility (if needed)
     // This replaces your original 4-parameter constructor

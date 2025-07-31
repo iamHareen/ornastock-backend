@@ -2,7 +2,6 @@ package com.musketeers.jewelverse.util.mapper;
 
 import com.musketeers.jewelverse.dto.auth.*;
 import com.musketeers.jewelverse.model.entity.user.*;
-import com.musketeers.jewelverse.model.enums.UserRole;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,19 +15,12 @@ public class AuthMapper {
             return null;
         }
 
-        UserRole userRole = null;
-        if (user.getRole() != null) {
-            try {
-                userRole = UserRole.valueOf(user.getRole().getName());
-            } catch (IllegalArgumentException e) {
-                // Handle case where role name doesn't match enum
-                userRole = null;
-            }
-        }
-
         return LoginResponse.builder()
                 .token(token)
-                .role(userRole)
+                .role(user.getUserRole())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
                 .build();
     }
 
@@ -42,6 +34,7 @@ public class AuthMapper {
         customer.setLastName(dto.getLastName());
         customer.setEmail(dto.getEmail());
         customer.setPassword(dto.getPassword());
+        customer.setUserRole(com.musketeers.jewelverse.model.enums.UserRole.CUSTOMER); // Set role explicitly
         customer.setEnabled(true); // New customers are enabled by default
 
         return customer;
