@@ -1,7 +1,7 @@
 package com.musketeers.jewelverse.model.entity.user;
 
-import com.musketeers.jewelverse.model.enums.UserRole;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
@@ -13,6 +13,7 @@ import lombok.*;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
+@DiscriminatorValue("ADMIN")
 @Table(name = "admins")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Admin extends User {
@@ -25,14 +26,14 @@ public class Admin extends User {
 
     // Custom constructor to handle the specific fields and set the role
     public Admin(String email, String password, String firstName, String lastName, String employeeId, String department) {
-        super(email, password, firstName, lastName, UserRole.ADMIN);
+        super(email, password, firstName, lastName);
         this.employeeId = employeeId;
         this.department = department;
     }
 
     // A simpler custom constructor if department is optional during initial creation
     public Admin(String email, String password, String firstName, String lastName, String employeeId) {
-        super(email, password, firstName, lastName, UserRole.ADMIN);
+        super(email, password, firstName, lastName);
         this.employeeId = employeeId;
     }
 }

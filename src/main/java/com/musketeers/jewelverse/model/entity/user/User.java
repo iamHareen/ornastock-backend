@@ -16,12 +16,11 @@ import lombok.*;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 // --- Lombok Annotations for reducing boilerplate code ---
-@Data // Generates getters, setters, toString, equals, and hashCode methods
+@Getter
+@Setter
 @EqualsAndHashCode(callSuper = true) // Includes parent class fields in equals/hashCode calculation
 @ToString(callSuper = true) // Includes parent class fields in toString output
 @NoArgsConstructor // Generates a no-argument constructor: public User() {}
-@AllArgsConstructor // Generates constructor with all fields as parameters
-@Builder // Enables the Builder pattern for object creation
 public abstract class User extends BaseEntity {
 
     @Column(nullable = false)
@@ -40,8 +39,11 @@ public abstract class User extends BaseEntity {
     @NonNull // Lombok annotation that adds null checks in constructors/setters
     private String password;
 
-    @Builder.Default // Sets default value when using Builder pattern
     private boolean enabled = true;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     // Custom constructor for backwards compatibility (if needed)
     // This replaces your original 4-parameter constructor

@@ -14,6 +14,7 @@ import com.musketeers.jewelverse.repository.DiscountRequestRepository;
 import com.musketeers.jewelverse.repository.JewelryRepository;
 import com.musketeers.jewelverse.repository.UserRepository;
 import com.musketeers.jewelverse.service.discount.DiscountRequestService;
+import com.musketeers.jewelverse.util.mapper.DiscountRequestMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,10 +42,10 @@ public class DiscountRequestServiceImpl implements DiscountRequestService {
 
         // TODO: Add logic to check if the user role is actually SALES_ASSISTANT
 
-        DiscountRequest newRequest = Mappers.toDiscountRequestEntity(createDto, jewelry, salesAssistant);
+        DiscountRequest newRequest = DiscountRequestMapper.toDiscountRequestEntity(createDto, jewelry, salesAssistant);
         DiscountRequest savedRequest = discountRequestRepository.save(newRequest);
 
-        return com.musketeers.jewelverse.util.mapper.Mappers.toDiscountRequestDto(savedRequest);
+        return DiscountRequestMapper.toDiscountRequestDto(savedRequest);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class DiscountRequestServiceImpl implements DiscountRequestService {
     public List<DiscountRequestDto> getAllPendingRequests() {
         return discountRequestRepository.findByStatus(DiscountRequestStatus.PENDING)
                 .stream()
-                .map(com.musketeers.jewelverse.util.mapper.Mappers::toDiscountRequestDto)
+                .map(DiscountRequestMapper::toDiscountRequestDto)
                 .collect(Collectors.toList());
     }
 }

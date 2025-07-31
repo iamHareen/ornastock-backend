@@ -1,16 +1,23 @@
 package com.musketeers.jewelverse.model.entity.user;
 
-import com.musketeers.jewelverse.model.enums.UserRole;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@DiscriminatorValue("MANAGER")
 @Table(name = "managers")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Manager extends User {
@@ -21,14 +28,9 @@ public class Manager extends User {
     @Column(name = "department")
     private String department;
 
-    // Constructors
-    public Manager() {
-        super();
-        setRole(UserRole.MANAGER);
-    }
-
+    // Constructor
     public Manager(String email, String password, String firstName, String lastName, String employeeId) {
-        super(email, password, firstName, lastName, UserRole.MANAGER);
+        super(email, password, firstName, lastName);
         this.employeeId = employeeId;
     }
 

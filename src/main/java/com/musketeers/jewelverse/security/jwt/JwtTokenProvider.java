@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
@@ -29,7 +29,7 @@ public class JwtTokenProvider {
     @Value("${app.jwt.refresh-token-expiration-ms}")
     private int refreshTokenExpirationMs;
 
-    private Key getSigningKey() {
+    private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
     }
 
@@ -45,21 +45,21 @@ public class JwtTokenProvider {
 
     public String generateTokenFromEmail(String email, int expirationMs) {
         return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + expirationMs))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .subject(email)
+                .issuedAt(new Date())
+                .expiration(new Date((new Date()).getTime() + expirationMs))
+                .signWith(getSigningKey())
                 .compact();
     }
 
     public String getEmailFromJwt(String token) {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build()
-                .parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().verifyWith(getSigningKey()).build()
+                .parseSignedClaims(token).getPayload().getSubject();
     }
 
     public boolean validateJwt(String authToken) {
         try {
-            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(authToken);
+            Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(authToken);
             return true;
         } catch (SecurityException e) {
             logger.error("Invalid JWT signature: {}", e.getMessage());
